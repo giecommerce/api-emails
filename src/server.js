@@ -7,19 +7,17 @@ require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 5000;
 
-// Middleware
 app.use(bodyParser.json());
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// Nodemailer transport
 const transport = nodemailer.createTransport({
   host: 'smtp.zoho.com',
   port: 465,
-  secure: true, // true for 465, false for other ports
+  secure: true,
   auth: {
-    user: process.env.EMAIL_USER, // seu email do Zoho
-    pass: process.env.EMAIL_PASS, // sua senha do Zoho
+    user: process.env.EMAIL_USER, 
+    pass: process.env.EMAIL_PASS,
   },
   tls: {
     rejectUnauthorized: false,
@@ -30,16 +28,16 @@ app.post('/send', (req, res) => {
   const { name, email, message, recipient } = req.body;
 
   const mailOptions = {
-    from: process.env.EMAIL_USER, // seu email do Zoho
-    to: recipient, // destinatário dinâmico baseado na entrada do frontend
-    replyTo: email, // responder para o email fornecido pelo cliente
-    subject: `Nova mensagem de contato: ${name} - ${email}`, // Nome e email do cliente no assunto
-    text: `${message}\n\nAtt,\n${name}\n${email}`, // Mensagem e assinatura do cliente
+    from: process.env.EMAIL_USER, 
+    to: recipient, 
+    replyTo: email, 
+    subject: `Nova mensagem de contato: ${name} - ${email}`,
+    text: `${message}\n\nAtt,\n${name}\n${email}`, 
   };
 
   transport.sendMail(mailOptions, (error, info) => {
     if (error) {
-      console.error('Error sending email:', error); // Captura o erro e mostra no console
+      console.error('Error sending email:', error);
       return res.status(500).send('Falha ao enviar a mensagem. Tente novamente mais tarde.');
     }
     res.status(200).send('Mensagem enviada com sucesso!');
