@@ -35,7 +35,7 @@ app.post('/send', (req, res) => {
   const { name, email, message, recipient } = req.body;
 
   const mailOptions = {
-    from: email, // usa o email fornecido pelo cliente
+    from: process.env.EMAIL_USER, // seu email do Zoho
     to: recipient, // destinatário dinâmico baseado na entrada do frontend
     replyTo: email, // responder para o email fornecido pelo cliente
     subject: `Nova mensagem de contato: ${name} - ${email}`, // Nome e email do cliente no assunto
@@ -45,7 +45,7 @@ app.post('/send', (req, res) => {
   transport.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.error('Error sending email:', error); // Captura o erro e mostra no console
-      return res.status(500).json({ error: 'Falha ao enviar a mensagem. Tente novamente mais tarde.' });
+      return res.status(500).json({ error: `Falha ao enviar a mensagem. Tente novamente mais tarde. Erro: ${error.message}` });
     }
     res.status(200).send('Mensagem enviada com sucesso!');
   });
