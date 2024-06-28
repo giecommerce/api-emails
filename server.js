@@ -35,7 +35,7 @@ app.post('/send', (req, res) => {
   const { name, email, message, recipient } = req.body;
 
   const mailOptions = {
-    from: process.env.EMAIL_USER, // seu email do Zoho
+    from: email, // usa o email fornecido pelo cliente
     to: recipient, // destinatário dinâmico baseado na entrada do frontend
     replyTo: email, // responder para o email fornecido pelo cliente
     subject: `Nova mensagem de contato: ${name} - ${email}`, // Nome e email do cliente no assunto
