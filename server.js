@@ -45,7 +45,7 @@ app.post('/send', (req, res) => {
   transport.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.error('Error sending email:', error); // Captura o erro e mostra no console
-      return res.status(500).send('Falha ao enviar a mensagem. Tente novamente mais tarde.');
+      return res.status(500).json({ error: 'Falha ao enviar a mensagem. Tente novamente mais tarde.' });
     }
     res.status(200).send('Mensagem enviada com sucesso!');
   });
